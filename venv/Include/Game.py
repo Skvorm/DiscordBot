@@ -51,7 +51,11 @@ class Game:
             msg += '•' + name_list[name] + ':' + name + '\n'
         if len(winners) == 1:
             self.winner = str(winners[0])
-            msg += (round_num * ' ') + 'Winner is ' + self.winner + ' with the ' + str(highest[0])
+            if len(highest)==1:
+                highest=highest[0]
+            highest=str(highest)
+            msg += f"{(round_num * ' ')} Winner is {self.winner} with the {highest}"
+            #msg += (round_num * ' ') + 'Winner is ' + self.winner + ' with the ' + str(highest)
         else:
             msg += (round_num * ' ') + ' -Round Tie-\n '
             # for person in winners:
@@ -61,10 +65,10 @@ class Game:
                 else:
                     msg += f"{(round_num * ' ')} {str(winners[p])} with the {str(highest[p])}"
             msg += (round_num * ' ') + '\n -Tie Breaker-\n'
-            round_num += 1
-            msg += self.play(winners, round_num)
-            print(msg)
-
+            msg += self.play(winners, round_num+1)
+        #print(msg)
+        #msg.replace("[","")
+        #msg.replace("]", "")
         return msg
     # if run as main, plays test game with 4 players
 

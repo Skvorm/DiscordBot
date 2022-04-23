@@ -84,23 +84,7 @@ class BotHelperFunctions:
 
 if __name__ == '__main__':
     d = BotHelperFunctions()
-    #print(d.get_roll_range("!roll 1-100"))
-    #print(d.get_roll_range("!roll 2-59"))
-    #print(d.parse_poll("We will win?"))
-    #print(d.get_roll_range("!roll"))
-    #print('wor-d'.split('-'))
-    # print(d.get_roll_range("!roll"))
-    #tmp=0
     tmp = d.parse_song("!music 9")
-   # print(str(tmp)+":"+str(d.parse_song("!music 9")))
-  #  tmp = d.parse_song(("!music 2  2 2 2"))
-   # print(str(tmp)+":"+str(d.parse_song("!music 2  2 2 2")))
     tmp = d.parse_song("!music")
     print(str(tmp)+":"+str(d.parse_song("!music")))
     tmp = d.parse_song("!music song")
-   # print(str(d.parse_song("!music song")))
-   # print(str(d.parse_song("!music 2.5")))
-   # print(str(d.parse_song("!music song 2  23 a")))
-   # print(str(d.parse_song("!music -2")))
-
-   # print(d.get_roll_range("!roll boulder"))
