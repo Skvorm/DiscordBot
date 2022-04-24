@@ -26,22 +26,22 @@ class Game:
         highest_card = ''
         msg = ''
         indent = 2 * " "
-        print(player_list)
+        #print(player_list)
         name_list = self.d.get_cards_names(player_list)
-        print(name_list)
+        #print(name_list)
         for card in name_list:
             card_list.append(card)
         ret_cards = self.d.card_list_sort(card_list)
-        print(ret_cards)
+        #print(ret_cards)
         highest = self.d.get_highest(ret_cards)
         print("Highest Card " + str(highest) + str(len(highest)))
         # winners.append(name_list.get(highest))
         num_winners = len(highest)
-        print(f"number of winners ({num_winners})")
+        #print(f"number of winners ({num_winners})")
         if num_winners >= 2:
             if isinstance(highest, list):
                 for card in highest:
-                    print(name_list[card]+":"+card + '\n')
+                    #print(name_list[card]+":"+card + '\n')
                     winners.append(name_list[card])
             else:
                 winners.append(name_list[highest])
