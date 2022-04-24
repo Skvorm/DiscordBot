@@ -53,10 +53,10 @@ class Game:
             #print('c')
         self.d.resetdeck()
         shuffle(self.d.currentDeck)
-        msg ='Highest Card\n'
+        msg ='-Highest Card-\n'
         for name in name_list:
             #msg += '•' + name_list[name] + ' - ' + name + '\n'
-            msg += f"{name_list[name]} - {name}\n"
+            msg += f"•{name_list[name]} - {name}\n"
         #if len(winners) == 1:
         if num_winners ==1:
             self.winner = str(winners[0])
