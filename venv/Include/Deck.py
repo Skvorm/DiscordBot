@@ -35,7 +35,6 @@ class Deck:
 
     def get_highest(self, card_list, aces_high=True):
         sorted_list = self.card_list_sort(card_list, aces_high)
-        print("list:"+str(sorted_list))
         highest_rank = ""
         highest_cards = []
         if len(sorted_list) == 0:
