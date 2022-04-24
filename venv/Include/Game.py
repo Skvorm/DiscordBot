@@ -60,7 +60,7 @@ class Game:
             highest=str(highest)
             msg += f"Winner is {self.winner} with the {highest}"
         else:
-            msg += f"-Round Tie-\n"
+            msg += f"-Winners-\n"
             # for person in winners:
             for p in range(0, len(winners), 1):
                 msg+=f"{winners[p]} - {highest[p]}\n"
