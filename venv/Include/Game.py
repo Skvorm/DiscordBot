@@ -16,7 +16,7 @@ class Game:
         self.winner = player
 
     # returns formatted message:
-    def play(self, player_list, round_num):
+    def play(self, player_list, round_num=1):
         if len(player_list) == 0:
             return "No Cards Drawn"
         highest = []
@@ -58,10 +58,9 @@ class Game:
             if len(highest)==1:
                 highest=highest[0]
             highest=str(highest)
-            msg += f"{indent} Winner is {self.winner} with the {highest}"
-            #msg += (round_num * ' ') + 'Winner is ' + self.winner + ' with the ' + str(highest)
+            msg += f"Winner is {self.winner} with the {highest}"
         else:
-            msg += (round_num * ' ') + ' -Round Tie-\n'
+            msg += f"-Round Tie-\n"
             # for person in winners:
             for p in range(0, len(winners), 1):
                 msg+=f"{winners[p]} - {highest[p]}\n"
@@ -74,7 +73,4 @@ if __name__ == '__main__':
     g = Game()
     d1 = Deck()
     players = ['bill', 'bob', 'billy', 'larry']
-    cl=["Five of Spades","Five of Spades","Five of Spades","Five of Spades"]
-    ##print(g.play(players,1))
-    ##print(d1.get_cards_names(players))
     print(g.play(players, 1))
