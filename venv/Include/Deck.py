@@ -35,12 +35,13 @@ class Deck:
 
     def get_highest(self, card_list, aces_high=True):
         sorted_list = self.card_list_sort(card_list, aces_high)
+        print("list:"+str(sorted_list))
         highest_rank = ""
         highest_cards = []
         if len(sorted_list) == 0:
             return "No Highest Card"
         elif len(sorted_list) == 1:
-            return sorted_list[0]
+            return sorted_list
         elif len(sorted_list) >= 2:
             if aces_high:
                 highest_rank = max(sorted_list, key=lambda x: self.rank_aces_high.index(x.split()[0]))
@@ -52,8 +53,7 @@ class Deck:
         highest_cards = [card for card in sorted_list if highest_rank in card]
         if isinstance(highest_cards, str):
             temp = highest_cards
-            highest_cards = []
-            highest_cards.append(temp)
+            highest_cards = [temp]
         return highest_cards
 
     def resetdeck(self):

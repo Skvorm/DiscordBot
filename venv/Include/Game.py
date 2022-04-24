@@ -37,19 +37,23 @@ class Game:
         print("Highest Card " + str(highest) + str(len(highest)))
         # winners.append(name_list.get(highest))
         num_winners = len(highest)
+        print(num_winners)
         #print(f"number of winners ({num_winners})")
         if num_winners >= 2:
             if isinstance(highest, list):
                 for card in highest:
                     #print(name_list[card]+":"+card + '\n')
                     winners.append(name_list[card])
+                    print('a')
             else:
                 winners.append(name_list[highest])
+                print('b')
         else:
             winners.append(name_list[highest[0]])
+            print('c')
         self.d.resetdeck()
         shuffle(self.d.currentDeck)
-        msg = (round_num * ' ') + 'Highest Card:Round ' + str(round_num) + '\n'
+        msg ='Highest Card\n'
         for name in name_list:
             msg += '•' + name_list[name] + ':' + name + '\n'
         #if len(winners) == 1:
