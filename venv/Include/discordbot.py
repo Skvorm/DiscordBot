@@ -1,9 +1,7 @@
 
 import asyncio
 import os
-#import socket
 import string
-
 import discord
 import contextvars
 import datetime as dt
