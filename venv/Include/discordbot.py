@@ -38,7 +38,10 @@ def get_song_list_length():
 
 def song_format(song):
     song_name = song.rsplit("\\")[-1]
-    songtmp = song_name.rsplit(".")[0]
+    #songtmp = str(song_name.rsplit(".")[0:-1])
+    songtmp = song_name[:song_name.rindex(".")]
+    #songtmp=songtmp.lstrip("[")
+    #songtmp=songtmp.rstrip("]")
     return songtmp
 def get_song_list():
     #songs = os.listdir("music")
@@ -56,6 +59,8 @@ def get_song_list():
         if len(outtmp)+ch_ct<=bl:
             out+=outtmp
         else:
+            #ensures proper output spacing
+            #if songlist longer than max Discord message length
             diff=bl-len(out)-1
             out+=diff*' '+"\n"
             out+=outtmp
