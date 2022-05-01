@@ -85,7 +85,7 @@ class BotHelperFunctions:
         dir_list = []
         c = os.scandir(path)
         for f in c:
-            print(f"{f.name}-{f.is_file()}")
+            #print(f"{f.name}-{f.is_file()}")
             if f.is_dir():
                 tmplist = self.create_music_list(f.path)
                 # ensures flat list is returned
