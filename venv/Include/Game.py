@@ -63,9 +63,9 @@ class Game:
             if len(highest)==1:
                 highest=highest[0]
             highest=str(highest)
-            msg += f"-Winner-\n**{self.winner}** with the {highest}"
+            msg += f"---Winner---\n**{self.winner}** with the {highest}"
         else:
-            msg += f"-Winners-\n"
+            msg += f"---Winners---\n"
             # for person in winners:
             for p in range(0, len(winners), 1):
                 msg+=f"•{winners[p]} - {highest[p]}\n"
