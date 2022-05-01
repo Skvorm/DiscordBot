@@ -36,6 +36,10 @@ def get_song_list_length():
     #return len(os.listdir("music"))
     return len(b.create_music_list("music"))
 
+def song_format(song):
+    song_name = song.rsplit("\\")[-1]
+    songtmp = song_name.rsplit(".")[0]
+    return songtmp
 def get_song_list():
     #songs = os.listdir("music")
     songs = b.create_music_list("music")
@@ -47,17 +51,18 @@ def get_song_list():
     bl=2000
     for song in songs:
        #songtmp=song.rstrip("\\.wav\\.m4")
-        song_name = song.rsplit("\\")[-1]
-        songtmp = song_name.rsplit(".")[0]
+        songtmp =song_format(song)
         outtmp=f'{ct}: {songtmp} \n'
         if len(outtmp)+ch_ct<=bl:
             out+=outtmp
         else:
-            diff=bl-len(out)
-            out+=diff*' '
+            diff=bl-len(out)-1
+            out+=diff*' '+"\n"
             out+=outtmp
+            ch_ct=0
+            print(ch_ct)
         ct+=1
-        ch_ct=len(out)
+        ch_ct+=len(outtmp)
     return out
 
 
@@ -133,6 +138,7 @@ async def on_message(message):
             #vc.play(discord.FFmpegPCMAudio("Cave Theme.wav"), after=after_player)
             try:
                 print(song)
+                await message.channel.send(f'now playing: "{song_format(song)}"')
                 vc.play(discord.FFmpegPCMAudio(song), after=after_player)
                 #vc.play(discord.FFmpegPCMAudio("music\\" + song), after=after_player)
             #await message.channel.send(f"playing **{song}**")
