@@ -1,9 +1,6 @@
-
 import asyncio
 import os
-#import socket
 import string
-
 import discord
 import contextvars
 import datetime as dt
@@ -12,6 +9,7 @@ from BotHelperFunctions import BotHelperFunctions
 from Game import Game
 from dotenv import load_dotenv
 from Prediction import Prediction
+
 sv_intents = discord.Intents.default()
 sv_intents.members = True
 load_dotenv()

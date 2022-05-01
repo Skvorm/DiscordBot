@@ -1,5 +1,4 @@
 import os
-
 import mysql.connector
 from dotenv import load_dotenv
 
@@ -18,10 +17,3 @@ class DataBaseAccess:
     )
     user_cursor = user_database.cursor()
 
-
-if __name__ == '__main__':
-    sql = "INSERT INTO Users (ID,Name) VALUES (%s,%s)"
-    val = (1, "Bot")
-    # user_cursor.execute(sql, val)
-    # user_database.commit()
-    # print(user_cursor.lastrowid)
