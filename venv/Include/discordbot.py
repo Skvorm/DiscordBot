@@ -21,30 +21,23 @@ g = Game()
 
 
 def get_random_song():
-    #songs = os.listdir("music")
     songs = b.create_music_list("music")
     song_path = songs[random.randrange(0, len(songs))]
     return song_path
 def get_song_choice(user_input):
-    #songs = os.listdir("music")
     songs = b.create_music_list("music")
     song_path = songs[user_input-1]
     print(song_path)
     return song_path
 
 def get_song_list_length():
-    #return len(os.listdir("music"))
     return len(b.create_music_list("music"))
 
 def song_format(song):
     song_name = song.rsplit("\\")[-1]
-    #songtmp = str(song_name.rsplit(".")[0:-1])
     songtmp = song_name[:song_name.rindex(".")]
-    #songtmp=songtmp.lstrip("[")
-    #songtmp=songtmp.rstrip("]")
     return songtmp
 def get_song_list():
-    #songs = os.listdir("music")
     songs = b.create_music_list("music")
     ch_ct=0
     ct=1
@@ -53,7 +46,6 @@ def get_song_list():
     songtmp=''
     bl=2000
     for song in songs:
-       #songtmp=song.rstrip("\\.wav\\.m4")
         songtmp =song_format(song)
         outtmp=f'{ct}: {songtmp} \n'
         if len(outtmp)+ch_ct<=bl:
@@ -65,7 +57,7 @@ def get_song_list():
             out+=diff*' '+"\n"
             out+=outtmp
             ch_ct=0
-            print(ch_ct)
+            #print(ch_ct)
         ct+=1
         ch_ct+=len(outtmp)
     return out
@@ -76,7 +68,6 @@ def get_song_list():
 async def on_ready():
     print(f"{client.user.name} connected")
     print(os.getcwd())
-    #print(os.listdir("music"))
 
 
 @client.event
@@ -84,7 +75,6 @@ async def on_message(message):
     if message.author == client.user:
         return
     if message.content.startswith("!songlist"):
-    #if message.content.startswith("!songlist"):
         song_list=get_song_list()
         if len(song_list)<1:
             await message.channel.send("no songs to play")
@@ -98,12 +88,10 @@ async def on_message(message):
 
 
     if message.content.startswith("!music"):
-       #play_random=False
         print(dt.datetime.now())
         try:
             song_choice=b.parse_song(message.content)
             if song_choice<0 or song_choice>get_song_list_length():
-               # play_random=True
                 song=get_random_song()
             else:
                 song=get_song_choice(song_choice)
@@ -131,23 +119,14 @@ async def on_message(message):
                     future.result()
                 except Exception as e:
                     print(e)
-                    #pass
 
             if vc.is_playing:
                 vc.pause()
-            #if not play_random:
-            #
-            #else:
-            #   song = get_random_song()
-
-            #vc.play(discord.FFmpegPCMAudio("Cave Theme.wav"), after=after_player)
             try:
                 print(song)
-                await message.channel.send(f'now playing: "{song_format(song)}"')
                 vc.play(discord.FFmpegPCMAudio(song), after=after_player)
-                #vc.play(discord.FFmpegPCMAudio("music\\" + song), after=after_player)
-            #await message.channel.send(f"playing **{song}**")
-            # print(dt.datetime.now())
+                await message.channel.send(f'Now playing: "{song_format(song)}"')
+
             except Exception as play_exception:
                 print("couldn't play")
                 print(str(play_exception))
@@ -155,7 +134,6 @@ async def on_message(message):
             print("we've excepted")
             #pass
     if message.content.startswith("!stop"):
-        #player = message.author.voice.channel
         player = message.channel
         for p in client.voice_clients:
             if p.guild == player.guild:
