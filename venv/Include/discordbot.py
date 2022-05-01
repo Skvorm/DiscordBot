@@ -41,15 +41,25 @@ def get_song_list_length():
 def get_song_list():
     #songs = os.listdir("music")
     songs = b.create_music_list("music")
+    ch_ct=0
     ct=1
     out=""
+    outtmp=''
     songtmp=''
+    bl=2000
     for song in songs:
        #songtmp=song.rstrip("\\.wav\\.m4")
         song_name = song.rsplit("\\")[-1]
         songtmp = song_name.rsplit(".")[0]
-        out+=f'{ct}: {songtmp} \n'
+        outtmp=f'{ct}: {songtmp} \n'
+        if len(outtmp)+ch_ct<=bl:
+            out+=outtmp
+        else:
+            diff=bl-len(out)
+            out+=diff*' '
+            out+=outtmp
         ct+=1
+        ch_ct=len(out)
     return out
 
 
