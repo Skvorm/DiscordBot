@@ -1,5 +1,8 @@
 import discord
 import random
+import os
+import filetype
+from itertools import chain
 
 
 class BotHelperFunctions:
@@ -77,6 +80,22 @@ class BotHelperFunctions:
             param=-1
         return param
 
+    def create_music_list(self, path):
+        music_list = []
+        dir_list = []
+        c = os.scandir(path)
+        for f in c:
+            print(f"{f.name}-{f.is_file()}")
+            if f.is_dir():
+                tmplist = self.create_music_list(f.path)
+                # ensures flat list is returned
+                for tf in tmplist:
+                    music_list.append(tf)
+            elif f.is_file():
+                if filetype.is_audio(f.path):
+                    music_list.append(f.path)
+        c.close()
+        return music_list
 
 
 

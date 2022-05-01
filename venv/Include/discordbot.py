@@ -23,26 +23,31 @@ g = Game()
 
 
 def get_random_song():
-    songs = os.listdir("music")
+    #songs = os.listdir("music")
+    songs = b.create_music_list("music")
     song_path = songs[random.randrange(0, len(songs))]
     return song_path
 def get_song_choice(user_input):
-    songs = os.listdir("music")
+    #songs = os.listdir("music")
+    songs = b.create_music_list("music")
     song_path = songs[user_input-1]
     print(song_path)
     return song_path
 
 def get_song_list_length():
-    return len(os.listdir("music"))
+    #return len(os.listdir("music"))
+    return len(b.create_music_list("music"))
 
 def get_song_list():
-    songs = os.listdir("music")
+    #songs = os.listdir("music")
+    songs = b.create_music_list("music")
     ct=1
     out=""
     songtmp=''
     for song in songs:
        #songtmp=song.rstrip("\\.wav\\.m4")
-        songtmp = song.rsplit(".")[0]
+        song_name = song.rsplit("\\")[-1]
+        songtmp = song_name.rsplit(".")[0]
         out+=f'{ct}: {songtmp} \n'
         ct+=1
     return out
@@ -53,7 +58,7 @@ def get_song_list():
 async def on_ready():
     print(f"{client.user.name} connected")
     print(os.getcwd())
-    print(os.listdir("music"))
+    #print(os.listdir("music"))
 
 
 @client.event
@@ -62,7 +67,18 @@ async def on_message(message):
         return
     if message.content.startswith("!songlist"):
     #if message.content.startswith("!songlist"):
-        await message.channel.send(get_song_list())
+        song_list=get_song_list()
+        if len(song_list)<1:
+            await message.channel.send("no songs to play")
+        elif len(song_list)<=2000:
+            await message.channel.send(get_song_list())
+        else:
+            bl=2000
+            msg_buffer=[get_song_list()[i:i+bl] for i in range(0,len(song_list),bl)]
+            for m in msg_buffer:
+                await message.channel.send(m)
+
+
     if message.content.startswith("!music"):
        #play_random=False
         print(dt.datetime.now())
@@ -109,7 +125,8 @@ async def on_message(message):
             #vc.play(discord.FFmpegPCMAudio("Cave Theme.wav"), after=after_player)
             try:
                 print(song)
-                vc.play(discord.FFmpegPCMAudio("music\\"+song), after=after_player)
+                vc.play(discord.FFmpegPCMAudio(song), after=after_player)
+                #vc.play(discord.FFmpegPCMAudio("music\\" + song), after=after_player)
             #await message.channel.send(f"playing **{song}**")
             # print(dt.datetime.now())
             except Exception as play_exception:
