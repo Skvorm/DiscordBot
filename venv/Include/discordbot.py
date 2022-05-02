@@ -5,7 +5,7 @@ import discord
 import contextvars
 import datetime as dt
 import random
-from BotHelperFunctions import BotHelperFunctions
+from BotHelperFunctions import BotHelperFunctions, parse_song, create_music_list, get_roll_range
 from Game import Game
 from dotenv import load_dotenv
 from Prediction import Prediction
@@ -21,43 +21,52 @@ g = Game()
 
 
 def get_random_song():
-    songs = b.create_music_list("music")
+    songs = create_music_list("music")
     song_path = songs[random.randrange(0, len(songs))]
     return song_path
+
+
 def get_song_choice(user_input):
-    songs = b.create_music_list("music")
+    songs = create_music_list("music")
     song_path = songs[user_input-1]
-    print(song_path)
+    #print(song_path)
     return song_path
 
+
 def get_song_list_length():
-    return len(b.create_music_list("music"))
+    return len(create_music_list("music"))
+
 
 def song_format(song):
     song_name = song.rsplit("\\")[-1]
     songtmp = song_name[:song_name.rindex(".")]
     return songtmp
+
+
 def get_song_list():
-    songs = b.create_music_list("music")
+    songs = create_music_list("music")
     ch_ct=0
     ct=1
     out=""
     outtmp=''
     songtmp=''
     bl=2000
+    msg_ct=1
     for song in songs:
         songtmp =song_format(song)
-        outtmp=f'{ct}: {songtmp} \n'
-        if len(outtmp)+ch_ct<=bl:
+        outtmp=f'{ct}: {songtmp}\n'
+        if (len(outtmp)+ch_ct)<=bl:
             out+=outtmp
         else:
             #ensures proper output spacing
             #if songlist longer than max Discord message length
-            diff=bl-len(out)-1
-            out+=diff*' '+"\n"
+            diff=(msg_ct*bl)-len(out)-1
+            out+=(diff*" ")+"\n"
             out+=outtmp
+            #print(f"{ct}:{diff}:{outtmp}")
             ch_ct=0
-            #print(ch_ct)
+            msg_ct+=1
+
         ct+=1
         ch_ct+=len(outtmp)
     return out
@@ -75,22 +84,20 @@ async def on_message(message):
     if message.author == client.user:
         return
     if message.content.startswith("!songlist"):
+        bl = 2000
         song_list=get_song_list()
         if len(song_list)<1:
-            await message.channel.send("no songs to play")
-        elif len(song_list)<=2000:
-            await message.channel.send(get_song_list())
+            await message.channel.send("No media files in \\music folder")
+        elif len(song_list)<=bl:
+            await message.channel.send(song_list)
         else:
-            bl=2000
-            msg_buffer=[get_song_list()[i:i+bl] for i in range(0,len(song_list),bl)]
+            msg_buffer=[song_list[i:i+bl] for i in range(0, len(song_list), bl)]
             for m in msg_buffer:
                 await message.channel.send(m)
 
-
     if message.content.startswith("!music"):
-        print(dt.datetime.now())
         try:
-            song_choice=b.parse_song(message.content)
+            song_choice= parse_song(message.content)
             if song_choice<0 or song_choice>get_song_list_length():
                 song=get_random_song()
             else:
@@ -123,7 +130,7 @@ async def on_message(message):
             if vc.is_playing:
                 vc.pause()
             try:
-                print(song)
+                #print(song)
                 vc.play(discord.FFmpegPCMAudio(song), after=after_player)
                 await message.channel.send(f'Now playing: "{song_format(song)}"')
 
@@ -141,7 +148,7 @@ async def on_message(message):
                 await p.disconnect()
     if message.content.startswith("!roll"):
         try:
-            rng = b.get_roll_range(str(message.content))
+            rng = get_roll_range(str(message.content))
         except ValueError:
             # default value of range(1-00), and 1 die
             rng = [1, 100, 1]
