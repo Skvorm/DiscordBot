@@ -83,7 +83,7 @@ class Deck:
             number = 0
         if number > self.size:
             number = self.size
-        print("getting " + str(number) + " cards")
+        #print("getting " + str(number) + " cards")
         for i in range(number):
             card_list.append(self.get_card())
         #self.size = self.size - number

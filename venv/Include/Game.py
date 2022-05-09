@@ -68,7 +68,7 @@ class Game:
             msg += f"---Winners---\n"
             # for person in winners:
             for p in range(0, len(winners), 1):
-                msg+=f"•{winners[p]} - {highest[p]}\n"
+                msg+=f"•**{winners[p]}** - {highest[p]}\n"
 
         return msg
     # if run as main, plays test game with 4 players
@@ -78,4 +78,6 @@ if __name__ == '__main__':
     g = Game()
     d1 = Deck()
     players = ['bill', 'bob', 'billy', 'larry']
-    print(g.play(players, 1))
+    msg=g.play(players, 1)
+    print(msg)
+    print(len(msg))
