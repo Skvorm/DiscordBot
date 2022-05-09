@@ -1,8 +1,58 @@
-import discord
-import random
 import os
+import random
 import filetype
-from itertools import chain
+
+
+def get_random_song():
+    songs = create_music_list("music")
+    song_path = songs[random.randrange(0, len(songs))]
+    return song_path
+
+
+def get_song_choice(user_input):
+    songs = create_music_list("music")
+    song_path = songs[user_input - 1]
+    # print(song_path)
+    return song_path
+
+
+def get_song_list_length():
+    return len(create_music_list("music"))
+
+
+def song_format(song):
+    song_name = song.rsplit("\\")[-1]
+    songtmp = song_name[:song_name.rindex(".")]
+    return songtmp
+
+
+def get_song_list():
+    songs = create_music_list("music")
+    ch_ct = 0
+    ct = 1
+    out = ""
+    outtmp = ''
+    songtmp = ''
+    bl = 2000
+    msg_ct = 1
+    for song in songs:
+        songtmp = song_format(song)
+        outtmp = f'{ct}: {songtmp}\n'
+        if (len(outtmp) + ch_ct) <= bl:
+            out += outtmp
+        else:
+            # ensures proper output spacing
+            # if songlist longer than max Discord message length
+            diff = (msg_ct * bl) - len(out) - 1
+            out += (diff * " ") + "\n"
+            out += outtmp
+            # print(f"{ct}:{diff}:{outtmp}")
+            ch_ct = 0
+            msg_ct += 1
+
+        ct += 1
+        ch_ct += len(outtmp)
+    return out
 
 
 def get_roll_range(input_string, max_val=10000, max_die=1000):
@@ -27,14 +77,14 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
                     end = int(param[1])
                     num_die = int(param[0])
                 except ValueError:
-                    end=100
-                    num_die=1
+                    end = 100
+                    num_die = 1
             if end >= max_val:
-                end=max_val
+                end = max_val
             elif end <= 0:
                 end = 100
             if num_die > max_die:
-                num_die=max_die
+                num_die = max_die
             elif num_die <= 0:
                 num_die = 1
         else:
@@ -54,7 +104,7 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
 def parse_poll(input_string, delimiter="!~"):
     quest = ""
     ans = []
-    parse_list=[]
+    parse_list = []
     param = input_string.replace('!poll', '')
     param = param.strip()
     if param.find(delimiter) != -1:
@@ -64,8 +114,8 @@ def parse_poll(input_string, delimiter="!~"):
             ans = param[1:len(param)]
     else:
         quest = param
-        ans = ["Yes","No"]
-    parse_list=[quest,ans]
+        ans = ["Yes", "No"]
+    parse_list = [quest, ans]
     return parse_list
 
 
@@ -74,11 +124,11 @@ def parse_song(input_string):
     param = param.strip()
     param = param.split(" ")[0]
     try:
-        param=int(param)
-        if param <=0:
-            param=-1
+        param = int(param)
+        if param <= 0:
+            param = -1
     except ValueError:
-        param=-1
+        param = -1
     return param
 
 
@@ -87,7 +137,7 @@ def create_music_list(path):
     dir_list = []
     c = os.scandir(path)
     for f in c:
-        #print(f"{f.name}-{f.is_file()}")
+        # print(f"{f.name}-{f.is_file()}")
         if f.is_dir():
             tmp_list = create_music_list(f.path)
             # ensures flat list is returned
@@ -108,5 +158,5 @@ if __name__ == '__main__':
     d = BotHelperFunctions()
     tmp = parse_song("!music 9")
     tmp = parse_song("!music")
-    print(str(tmp) +":" + str(parse_song("!music")))
+    print(str(tmp) + ":" + str(parse_song("!music")))
     tmp = parse_song("!music song")
