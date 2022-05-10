@@ -1,9 +1,6 @@
-import asyncio
 import discord
-import contextvars
 import datetime as dt
 from BotHelperFunctions import *
-from Game import Game
 from dotenv import load_dotenv
 from discord.ext import commands
 
@@ -15,7 +12,6 @@ client = commands.Bot(command_prefix='!', intents=sv_intents)
 client.load_extension("MediaCog")
 client.load_extension("RollCog")
 client.load_extension("CardCog")
-g = Game()
 
 #print(f'responding to commands starting with"{client.command_prefix}"')
 #for c in client.commands:
