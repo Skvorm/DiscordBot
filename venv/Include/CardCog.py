@@ -1,6 +1,5 @@
 import random
 from discord.ext import commands
-from BotHelperFunctions import get_roll_range
 from Game import Game
 
 
