@@ -32,4 +32,7 @@ A simple Discord Bot that allows users to roll various-sided dice(d6,d10,d20,etc
   
 -[FFmpeg](https://ffmpeg.org/)
  (media playback functionality)
+ 
+-[filetype](https://pypi.org/project/filetype/)
+ (used to parse media files) 
 	
