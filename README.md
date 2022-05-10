@@ -24,7 +24,7 @@ A simple Discord Bot that allows users to roll various-sided dice(d6,d10,d20,etc
     !music 5
     !songlist
 ## Requires
--[Pycord][voice]](https://docs.pycord.dev/en/master/index.html)
+-[Pycord[voice]](https://docs.pycord.dev/en/master/index.html)
 	(Base Discord-API libraries for Python)
   
 -[Dot-env](https://pypi.org/project/python-dotenv)
