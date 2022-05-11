@@ -9,7 +9,7 @@ class Media(commands.Cog,name="Media"):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name="songlist")
+    @commands.command(name="songlist",aliases=["musiclist","list"])
     async def song_list(self, ctx):
         bl = 2000
         song_list = get_song_list()
@@ -22,10 +22,10 @@ class Media(commands.Cog,name="Media"):
             for m in msg_buffer:
                 await ctx.send(m)
 
-    @commands.command(name="music")
-    async def music(self, ctx):
+    @commands.command(name="music",aliases=["song","play","media"])
+    async def music(self, ctx,*,args):
         try:
-            song_choice = parse_song(ctx.message.content)
+            song_choice = parse_song(args)
             if song_choice < 0 or song_choice > get_song_list_length():
                 song = get_random_song()
             else:
