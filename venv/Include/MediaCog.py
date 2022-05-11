@@ -27,14 +27,13 @@ class Media(commands.Cog, name="Media"):
             for m in msg_buffer:
                 await ctx.send(m)
 
-    song_desc="plays media files"
+    song_desc="Plays media files"
     song_help_long="View playable files with the !songlist command and select the corresponding song \
                     by including its number after the command. If no/invalid number is input, random \
                     file from folder will play"
-    song_help_brief='plays media files'
 
     @commands.command(name="music", aliases=["song", "play", "media"],description=song_desc,help=song_help_long,
-                      brief=song_help_brief,rest_is_raw=True)
+                      brief=song_desc,rest_is_raw=True)
     async def music(self, ctx, *, arg):
         try:
             song_choice = parse_song(arg)
@@ -81,9 +80,9 @@ class Media(commands.Cog, name="Media"):
             # print("we've excepted"+str(e))
             pass
 
-    stop_desc="stops the music"
-    stop_help="stops the currently playing music"
-    stop_help_brief="stops the currently playing music"
+    stop_desc="Stops the music"
+    stop_help="Stops the currently playing music"
+    stop_help_brief="Stops the currently playing music"
 
     @commands.command(name="stop",desc=stop_desc,help=stop_help,brief=stop_help_brief)
     async def stop(self, ctx):
