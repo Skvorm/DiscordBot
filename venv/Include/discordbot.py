@@ -1,5 +1,8 @@
 import discord
 import datetime as dt
+
+from discord.ext.commands import CommandNotFound
+
 from BotHelperFunctions import *
 from dotenv import load_dotenv
 from discord.ext import commands
@@ -12,6 +15,7 @@ client = commands.Bot(command_prefix='!', intents=sv_intents)
 client.load_extension("MediaCog")
 client.load_extension("RollCog")
 client.load_extension("CardCog")
+client.load_extension("UtilityCog")
 
 #print(f'responding to commands starting with"{client.command_prefix}"')
 #for c in client.commands:
@@ -29,6 +33,12 @@ async def on_message(message):
         return
     else:
         await client.process_commands(message)
+
+
+@client.event
+async def on_command_error(ctx,error):
+    if isinstance(error, CommandNotFound):
+        pass
 
 if __name__ == '__main__':
     time = dt.datetime.now()

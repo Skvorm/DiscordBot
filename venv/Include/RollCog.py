@@ -3,11 +3,19 @@ from discord.ext import commands
 from BotHelperFunctions import get_roll_range
 
 
+
+
 class Roll(commands.Cog, name="Roll"):
     def __init__(self, client):
         self.client = client
 
-    @commands.command(name="roll")
+    desc = "gets a Random Number"
+    help_long = "Can be used to get a random number within a set range or to emulate a dice roll \
+    with variable number of dice and number of sides\nExample:\n!roll 1-100 (rolls between 1-100)\n\
+    !roll 3d6   (rolls 3 6-sided dice)\n!roll 1d20  (rolls 1 20-sided die)"
+    help_brief = "generates a random number or a dice roll"
+
+    @commands.command(name="roll",description=desc,help=help_long,brief=help_brief)
     async def roll(self, ctx):
         try:
             rng = get_roll_range(str(ctx.message.content))
