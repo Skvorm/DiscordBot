@@ -140,7 +140,7 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
             end=tmp
         out = [start, end, 1]
     else:
-        print(f'Default {1},{end},{param}')
+        #print(f'Default {1},{end},{param}')
         try :
             end=int(param)
             if end==0:
