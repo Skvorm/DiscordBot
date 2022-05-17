@@ -59,6 +59,7 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
     # parses input from !roll command
     # outputs list of[min,max,# of die]
     end = 100
+    out=[]
     num_die = 1
     param = input_string.replace('!roll', '')
     param = param.strip()
@@ -91,13 +92,63 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
             end = int(param[0])
         out = [start, end, num_die]
     elif param.find('-') != -1:
-        param = param.split('-')
-        start = int(param[0])
-        end = int(param[1])
+        param=param.replace(' ', '')
+        ct=param.count('-')
+        #print(f'{ct}:{param}')
+        if ct==1:
+            if param.startswith('-'):
+                param=param[1:]
+                param = param.split('-')
+                start = -1*int(param[0])
+                end=0
+                #print(f'A{start},{end},{param}')
+            else:
+                param = param.split('-')
+                start = int(param[0])
+                end = int(param[1])
+                #print(f'B{start},{end},{param}')
+        elif ct==2:
+            if param.startswith('-'):
+                param = param[1:]
+                param = param.split('-')
+                start = -1*(int(param[0]))
+                end = int(param[1])
+                #print(f'C{start},{end},{param}')
+            else:
+                param = param.split('-')
+                start = int(param[0])
+                end = -1*int(param[1])
+                #print(f'D{start},{end},{param}')
+        elif ct==3:
+            param = param.split('-')
+            print(param)
+            param=list(filter(None, param))
+            #print(param)
+            start =-1* int(param[0])
+            end = -1 * int(param[1])
+            #print(f'E{start},{end},{param}')
+
+        else:
+            param = param.split('-')
+            start = int(param[0])
+            end = int(param[1])
+            print(f'F{start},{end},{param}')
         out = [start, end, 1]
     else:
+        print(f'Default {1},{end},{param}')
+        try :
+            end=int(param)
+            if end==0:
+                out=[0,1,1]
+            elif end>=1:
+                out=[0,end,1]
+            elif end<0:
+                out [end,-1,1]
+        except ValueError:
+            out = [1, 100, 1]
         # min,max,times rolled
-        out = [1, 100, 1]
+        #out = [1, 100, 1]
+    #print(out)
     return out
 
 
