@@ -121,9 +121,10 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
                 #print(f'D{start},{end},{param}')
         elif ct==3:
             param = param.split('-')
-            print(param)
+            #print(param)
             param=list(filter(None, param))
             #print(param)
+
             start =-1* int(param[0])
             end = -1 * int(param[1])
             #print(f'E{start},{end},{param}')
@@ -133,6 +134,10 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
             start = int(param[0])
             end = int(param[1])
             print(f'F{start},{end},{param}')
+        if end<start:
+            tmp=start
+            start=end
+            end=tmp
         out = [start, end, 1]
     else:
         print(f'Default {1},{end},{param}')
