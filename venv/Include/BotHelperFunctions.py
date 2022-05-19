@@ -80,10 +80,6 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
                 except ValueError:
                     end = 100
                     num_die = 1
-            if end >= max_val:
-                end = max_val
-            elif end<= (max_val*-1):
-                end= (-1*max_val)
             elif end <= 0:
                 end = 100
             if num_die > max_die:
@@ -92,7 +88,12 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
                 num_die = 1
         else:
             end = int(param[0])
+        if end >= max_val:
+            end = max_val
+        elif end <= (max_val * -1):
+            end = (-1 * max_val)
         out = [start, end, num_die]
+        print(out)
     elif param.find('-') != -1:
         param=param.replace(' ', '')
         ct=param.count('-')
@@ -135,7 +136,7 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
             param = param.split('-')
             start = int(param[0])
             end = int(param[1])
-            print(f'F{start},{end},{param}')
+            #print(f'F{start},{end},{param}')
         if end<start:
             tmp=start
             start=end
@@ -145,6 +146,10 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
         #print(f'Default {1},{end},{param}')
         try :
             end=int(param)
+            if end >= max_val:
+                end = max_val
+            elif end <= (max_val * -1):
+                end = (-1 * max_val)
             if end==0:
                 out=[0,1,1]
             elif end>=1:
