@@ -82,6 +82,8 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
                     num_die = 1
             if end >= max_val:
                 end = max_val
+            elif end<= (max_val*-1):
+                end= (-1*max_val)
             elif end <= 0:
                 end = 100
             if num_die > max_die:
