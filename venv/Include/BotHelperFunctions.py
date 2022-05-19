@@ -155,7 +155,7 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
             elif end>=1:
                 out=[0,end,1]
             elif end<0:
-                out [end,-1,1]
+                out=[end,-1,1]
         except ValueError:
             out = [1, 100, 1]
         # min,max,times rolled
