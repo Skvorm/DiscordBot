@@ -154,8 +154,10 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
                 end = (-1 * max_val)
             if end==0:
                 out=[0,1,1]
-            elif end>=1:
+            elif end==1:
                 out=[0,end,1]
+            elif end>1:
+                out=[1,end,1]
             elif end<0:
                 out=[end,-1,1]
         except ValueError:
