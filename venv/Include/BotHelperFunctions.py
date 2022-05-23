@@ -194,7 +194,7 @@ def parse_song(input_string):
         param = -1
     return param
 
-
+#returns flat list of all playable media files
 def create_music_list(path):
     music_list = []
     dir_list = []
@@ -212,6 +212,26 @@ def create_music_list(path):
     c.close()
     return music_list
 
+#returns dictionary of media files
+#folder:[list of playable files in folder]
+def create_music_list_dir(path):
+    music_list = []
+    dir_list = {}
+    c = os.scandir(path)
+    for f in c:
+        if f.is_dir():
+            tmp_list = create_music_list(f.path)
+            for tf in tmp_list:
+                dir_list[f.path]=tmp_list
+        elif f.is_file():
+            if filetype.is_audio(f.path):
+                music_list.append(f.path)
+    dir_list[path]=music_list
+    c.close()
+    return dir_list
+
+
+
 
 class BotHelperFunctions:
     pass
@@ -223,3 +243,8 @@ if __name__ == '__main__':
     tmp = parse_song("!music")
     print(str(tmp) + ":" + str(parse_song("!music")))
     tmp = parse_song("!music song")
+    tmp=create_music_list_dir("music")
+    for i in tmp.keys():
+        print("--"+str(i).split("\\")[-1])
+        for song in tmp[i]:
+            print(f'{song_format(song)}')
