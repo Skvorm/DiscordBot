@@ -1,8 +1,8 @@
 import random
+
+import discord
 from discord.ext import commands
 from BotHelperFunctions import get_roll_range
-
-
 
 
 class Roll(commands.Cog, name="Roll"):
@@ -15,7 +15,7 @@ class Roll(commands.Cog, name="Roll"):
     !roll 3d6   (rolls 3 6-sided dice)\n!roll 1d20  (rolls 1 20-sided die)"
     help_brief = "!roll (min - max),(max)(diceNumber d diceSides)"
 
-    @commands.command(name="roll",description=desc,help=help_long,brief=help_brief)
+    @commands.command(name="roll", description=desc, help=help_long, brief=help_brief)
     async def roll(self, ctx):
         try:
             rng = get_roll_range(str(ctx.message.content))
@@ -38,7 +38,14 @@ class Roll(commands.Cog, name="Roll"):
         else:
             roll_val = random.randint(rng[0], rng[1])
             msg = f"**({str(rng[0])}, {str(rng[1])})**: {str(ctx.author.name)} rolled **{str(roll_val)}**"
-        await ctx.send(msg)
+        if len(msg) > 4096:
+            await ctx.send(msg)
+        else:
+            emb=discord.Embed(title="Roll",
+                              description=msg,
+                              color=discord.Color.brand_green())
+            emb.set_author(name=ctx.author.display_name,icon_url=ctx.author.display_avatar)
+            await ctx.send(embed=emb)
 
 
 def setup(client):
