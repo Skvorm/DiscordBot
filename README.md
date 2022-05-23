@@ -8,6 +8,7 @@ A simple Discord Bot that allows users to roll various-sided dice(d6,d10,d20,etc
 - Can also be used to emulate dice rolls with a variable number of dice and number of sides      
 #### Example
 		!roll 1-100 (rolls between 1-100)
+		!roll 50    (rolls between 1-50)
 		!roll 3d6   (rolls 3 6-sided dice)
 		!roll 1d20  (rolls 1 20-sided die)
 ### -!card
