@@ -74,26 +74,28 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
                 param[0] = 1
             if param[1] == '':
                 param[1] = 6
-                try:
-                    end = int(param[1])
-                    num_die = int(param[0])
-                except ValueError:
-                    end = 100
-                    num_die = 1
-            elif end <= 0:
-                end = 100
-            if num_die > max_die:
+        try:
+            end = int(param[1])
+            num_die = int(param[0])
+            #print(f'start{start}:End{end}:NumberDice{num_die}')
+        except ValueError:
+            #print("Value ERROR")
+            end = 6
+            num_die = 1
+        if end <= 0:
+                end = 6
+        elif num_die > max_die:
                 num_die = max_die
-            elif num_die <= 0:
+        elif num_die <= 0:
                 num_die = 1
         else:
-            end = int(param[0])
+            end = int(param[1])
         if end >= max_val:
             end = max_val
         elif end <= (max_val * -1):
             end = (-1 * max_val)
         out = [start, end, num_die]
-        print(out)
+        print(f'{out}:A')
     elif param.find('-') != -1:
         param=param.replace(' ', '')
         ct=param.count('-')
@@ -239,12 +241,9 @@ class BotHelperFunctions:
 
 if __name__ == '__main__':
     d = BotHelperFunctions()
-    tmp = parse_song("!music 9")
-    tmp = parse_song("!music")
-    print(str(tmp) + ":" + str(parse_song("!music")))
-    tmp = parse_song("!music song")
-    tmp=create_music_list_dir("music")
-    for i in tmp.keys():
-        print("--"+str(i).split("\\")[-1])
-        for song in tmp[i]:
-            print(f'{song_format(song)}')
+  #  tmp = parse_song("!music 9")
+  #  tmp = parse_song("!music")
+ #   print(str(tmp) + ":" + str(parse_song("!music")))
+  # tmp=create_music_list_dir("music")
+   ####       print(f'{song_format(song)}')
+    print(get_roll_range("3d20"))
