@@ -9,6 +9,7 @@ class Media(commands.Cog, name="Media"):
     def __init__(self, client):
         self.client = client
 
+
     songlist_desc = "Lists playable media files"
     songlist_help_long = "Song Numbers for !music command"
     songlist_help_brief = "Song Numbers for !music command"
@@ -27,21 +28,23 @@ class Media(commands.Cog, name="Media"):
             for m in msg_buffer:
                 await ctx.send(m)
 
-    song_desc="Plays media files"
-    song_help_long="View playable files with the !songlist command and select the corresponding song \
+    song_desc = "Plays media files"
+    song_help_long = "View playable files with the !songlist command and select the corresponding song \
                     by including its number after the command. If no/invalid number is input, random \
                     file from folder will play"
 
-    @commands.command(name="music", aliases=["song", "play", "media"],description=song_desc,help=song_help_long,
-                      brief=song_desc,rest_is_raw=True)
+    @commands.command(name="music", aliases=["song", "play", "media"], description=song_desc, help=song_help_long,
+                      brief=song_desc, rest_is_raw=True)
     async def music(self, ctx, *, arg):
+        ran=False
         try:
             song_choice = parse_song(arg)
             if song_choice < 0 or song_choice > get_song_list_length():
                 song = get_random_song()
+                ran=True
             else:
                 song = get_song_choice(song_choice)
-
+            print(str(ran))
             player = ctx.author.voice.channel
             found = False
             vc_id = 0
@@ -71,7 +74,20 @@ class Media(commands.Cog, name="Media"):
             try:
                 # print(song)
                 vc.play(discord.FFmpegPCMAudio(song), after=after_player)
-                await ctx.send(f'Now playing: "{song_format(song)}"')
+                # await ctx.send(f'Now playing: "{song_format(song)}"')
+                if ran:
+                    t="Random Play"
+                else:
+                    t="Request"
+                emb = discord.Embed(
+                                    title="Media",
+                                    description=f'Now playing: **{song_format(song)}**',
+                                    color=discord.Color.dark_blue())
+                #emb.add_field(name="Now Playing",value=f"{song_format(song)}")
+                emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
+                emb.set_footer(text=t)
+
+                await ctx.send(embed=emb)
 
             except Exception as play_exception:
                 print("couldn't play")
@@ -80,11 +96,12 @@ class Media(commands.Cog, name="Media"):
             # print("we've excepted"+str(e))
             pass
 
-    stop_desc="Stops the music"
-    stop_help="Stops the currently playing music"
-    stop_help_brief="Stops the currently playing music"
 
-    @commands.command(name="stop",desc=stop_desc,help=stop_help,brief=stop_help_brief)
+    stop_desc = "Stops the music"
+    stop_help = "Stops the currently playing music"
+    stop_help_brief = "Stops the currently playing music"
+
+    @commands.command(name="stop", desc=stop_desc, help=stop_help, brief=stop_help_brief)
     async def stop(self, ctx):
         player = ctx.channel
         for p in self.client.voice_clients:
