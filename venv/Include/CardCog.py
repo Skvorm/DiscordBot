@@ -1,4 +1,6 @@
 import random
+
+import discord
 from discord.ext import commands
 from Game import Game
 
@@ -20,6 +22,9 @@ class Card(commands.Cog, name="Card"):
         chat_channel = 0
         check = False
         msg = ''
+        header = '---Highest Card---'
+        max_msg_length=2000
+        max_embed_length=4096
         players = []
         ch_test = ctx.author.voice
         if ch_test is not None:
@@ -29,9 +34,24 @@ class Card(commands.Cog, name="Card"):
                 for p in players_m:
                     players.append(p.name)
                     msg = self.g.play(players, 1)
+                    if (len(header)+len(msg))<=max_embed_length:
+                        emb = discord.Embed(
+                            title=header,
+                            description=msg,
+                            color=discord.Color.dark_blue())
+                        emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
+                        await ctx.channel.send(embed=emb)
+
         else:
-            msg = f"**{ctx.author.name}** : {self.g.get_random_card()}"
-        await ctx.channel.send(msg)
+            #msg = f"**{ctx.author.name}** : {self.g.get_random_card()}"
+            #await ctx.channel.send(msg)
+            emb = discord.Embed(
+                title=f'{self.g.get_random_card()}',
+                #description='',
+                color=discord.Color.dark_blue())
+            emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
+            await ctx.channel.send(embed=emb)
+
 
 
 def setup(client):

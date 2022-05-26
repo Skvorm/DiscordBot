@@ -80,7 +80,7 @@ class Media(commands.Cog, name="Media"):
                 else:
                     t="Request"
                 emb = discord.Embed(
-                                    title="Media",
+                                    #title="Media",
                                     description=f'Now playing: **{song_format(song)}**',
                                     color=discord.Color.dark_blue())
                 #emb.add_field(name="Now Playing",value=f"{song_format(song)}")
