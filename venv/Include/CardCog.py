@@ -35,10 +35,9 @@ class Card(commands.Cog, name="Card"):
                     players.append(p.name)
                 msg = self.g.play(players, 1)
                 if (len(header)+len(msg))<=max_embed_length:
-                    emb = discord.Embed(
-                            title=header,
-                            description=msg,
-                            color=discord.Color.dark_blue())
+                    emb = discord.Embed(title=header,
+                                        description=msg,
+                                        color=discord.Color.dark_blue())
                     emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
                     await ctx.channel.send(embed=emb)
 
