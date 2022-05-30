@@ -33,14 +33,14 @@ class Card(commands.Cog, name="Card"):
             if len(players_m) >= 1:
                 for p in players_m:
                     players.append(p.name)
-                    msg = self.g.play(players, 1)
-                    if (len(header)+len(msg))<=max_embed_length:
-                        emb = discord.Embed(
+                msg = self.g.play(players, 1)
+                if (len(header)+len(msg))<=max_embed_length:
+                    emb = discord.Embed(
                             title=header,
                             description=msg,
                             color=discord.Color.dark_blue())
-                        emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
-                        await ctx.channel.send(embed=emb)
+                    emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
+                    await ctx.channel.send(embed=emb)
 
         else:
             #msg = f"**{ctx.author.name}** : {self.g.get_random_card()}"
