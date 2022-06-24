@@ -1,4 +1,4 @@
 *.env
 *.db
 music/
-test.py
+Test.py
