@@ -20,15 +20,16 @@ class DataBaseAccess:
         tables = self.cur.execute('''SELECT name FROM sqlite_master WHERE type='table'
                               AND name='users';''').fetchall()
         if not tables:
-            self.cur.execute('''CREATE TABLE users (id int PRIMARY KEY, score integer, admin_point 
-            real)''')
+            self.cur.execute('''CREATE TABLE users (id int PRIMARY KEY, score integer)''')
         else:
             # print("tables exist")
             pass
 
-    def put_user(self, user=[0, 0, 0]):
+    def put_user(self, user=None):
+        if user is None:
+            user = [0, 0]
         try:
-            query = '''INSERT INTO users VALUES (?,?,?)'''
+            query = '''INSERT INTO users VALUES (?,?)'''
             self.cur.execute(query, user)
             self.con.commit()
             return True
@@ -42,11 +43,50 @@ class DataBaseAccess:
                 return user
             except Error as e:
                 # print("couldn't Insert User")
-                return [-1,0,0]
+                return [-1,0]
+    def get_user_score(self,user_id):
+        try:
+            query = '''Select score from users where id=?'''
+            user_score = self.cur.execute(query, str(user_id)).fetchone()
+            if user_score:
+                return user_score[0]
+            else:
+                return None
+        except Error as e:
+            print(f"{e} couldn't get score")
+            return None
+    #def set_user_score(self,user_id,score):
+    def set_user_score(self, user_id,score):
+        try:
+            query = '''Update users SET score=? WHERE  id=?'''
+            user_score = self.cur.execute(query, [score,str(user_id)])
+            return True
+        except Error as e:
+            print(f"{e} couldn't set score")
+            return False
+    def inc_user_score(self, user_id,amount):
+        try:
+            user_score=self.get_user_score(user_id)
+            if user_score:
+                user_score+=amount
+            else:
+                return None
+            query = '''Update users SET score=? WHERE  id=?'''
+            fin_score = self.cur.execute(query, [user_score, str(user_id)])
+            return user_score
+        except Error as e:
+            print(f"{e}:couldn't increment score")
+            return None
+
 
 
 if __name__ == '__main__':
     d = DataBaseAccess()
-    # print(d.get_count())
-    #print(d.put_user([1,2,0]))
-    #print(d.get_user(1))
+    #print(d.put_user([1,2]))
+    #print(d.put_user([1,1]))
+    #print(d.put_user([2,1]))
+    print(d.get_user_score(1))
+    print(d.set_user_score(1,50))
+    print(d.inc_user_score(1,25))
+    print(d.inc_user_score(3, 25))
+    print(d.get_user_score(3))
