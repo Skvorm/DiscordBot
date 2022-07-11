@@ -36,15 +36,17 @@ class DataBaseAccess:
         except Error as e:
             # print("couldn't Insert User")
             return False
-    def get_user(self,user_id):
-            try:
-                query = '''Select * from users where id=?'''
-                user=self.cur.execute(query, str(user_id)).fetchone()
-                return user
-            except Error as e:
-                # print("couldn't Insert User")
-                return [-1,0]
-    def get_user_score(self,user_id):
+
+    def get_user(self, user_id):
+        try:
+            query = '''Select * from users where id=?'''
+            user = self.cur.execute(query, str(user_id)).fetchone()
+            return user
+        except Error as e:
+            # print("couldn't Insert User")
+            return [-1, 0]
+
+    def get_user_score(self, user_id):
         try:
             query = '''Select score from users where id=?'''
             user_score = self.cur.execute(query, str(user_id)).fetchone()
@@ -55,20 +57,22 @@ class DataBaseAccess:
         except Error as e:
             print(f"{e} couldn't get score")
             return None
-    #def set_user_score(self,user_id,score):
-    def set_user_score(self, user_id,score):
+
+    # def set_user_score(self,user_id,score):
+    def set_user_score(self, user_id, score):
         try:
             query = '''Update users SET score=? WHERE  id=?'''
-            user_score = self.cur.execute(query, [score,str(user_id)])
+            user_score = self.cur.execute(query, [score, str(user_id)])
             return True
         except Error as e:
             print(f"{e} couldn't set score")
             return False
-    def inc_user_score(self, user_id,amount):
+
+    def inc_user_score(self, user_id, amount):
         try:
-            user_score=self.get_user_score(user_id)
+            user_score = self.get_user_score(user_id)
             if user_score:
-                user_score+=amount
+                user_score += amount
             else:
                 return None
             query = '''Update users SET score=? WHERE  id=?'''
@@ -79,14 +83,13 @@ class DataBaseAccess:
             return None
 
 
-
 if __name__ == '__main__':
     d = DataBaseAccess()
-    #print(d.put_user([1,2]))
-    #print(d.put_user([1,1]))
-    #print(d.put_user([2,1]))
+    # print(d.put_user([1,2]))
+    # print(d.put_user([1,1]))
+    # print(d.put_user([2,1]))
     print(d.get_user_score(1))
-    print(d.set_user_score(1,50))
-    print(d.inc_user_score(1,25))
+    print(d.set_user_score(1, 50))
+    print(d.inc_user_score(1, 25))
     print(d.inc_user_score(3, 25))
     print(d.get_user_score(3))
