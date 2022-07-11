@@ -2,10 +2,12 @@ import random
 
 import discord
 from discord.ext import commands
+
 from BotHelperFunctions import get_roll_range
 
 
 class Roll(commands.Cog, name="Roll"):
+
     def __init__(self, client):
         self.client = client
 
@@ -41,10 +43,10 @@ class Roll(commands.Cog, name="Roll"):
         if len(msg) > 4096:
             await ctx.send(msg)
         else:
-            emb=discord.Embed(title="Roll",
-                              description=msg,
-                              color=discord.Color.brand_green())
-            emb.set_author(name=ctx.author.display_name,icon_url=ctx.author.display_avatar)
+            emb = discord.Embed(title="Roll",
+                                description=msg,
+                                color=discord.Color.brand_green())
+            emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
             await ctx.send(embed=emb)
 
 
