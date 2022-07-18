@@ -68,19 +68,19 @@ class DataBaseAccess:
             print(f"{e} couldn't set score")
             return False
 
-    def inc_user_score(self, user_id, amount):
+    def increment_user_score(self, user_id, amount):
         try:
             user_score = self.get_user_score(user_id)
             if user_score:
                 user_score += amount
             else:
-                return None
+                return False
             query = '''Update users SET score=? WHERE  id=?'''
             fin_score = self.cur.execute(query, [user_score, str(user_id)])
-            return user_score
+            return True
         except Error as e:
             print(f"{e}:couldn't increment score")
-            return None
+            return False
 
 
 if __name__ == '__main__':
@@ -90,6 +90,6 @@ if __name__ == '__main__':
     # print(d.put_user([2,1]))
     print(d.get_user_score(1))
     print(d.set_user_score(1, 50))
-    print(d.inc_user_score(1, 25))
-    print(d.inc_user_score(3, 25))
+    print(d.increment_user_score(1, 25))
+    print(d.increment_user_score(3, 25))
     print(d.get_user_score(3))
