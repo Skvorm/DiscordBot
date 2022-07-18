@@ -81,7 +81,14 @@ class DataBaseAccess:
         except Error as e:
             print(f"{e}:couldn't increment score")
             return False
-
+    def clear_user_table(self):
+        try:
+            query='''Delete from users '''
+            self.cur.execute(query)
+            return True
+        except sqlite3.Error:
+            print("couldn't clear table")
+            return False
 
 if __name__ == '__main__':
     d = DataBaseAccess()
@@ -93,3 +100,5 @@ if __name__ == '__main__':
     print(d.increment_user_score(1, 25))
     print(d.increment_user_score(3, 25))
     print(d.get_user_score(3))
+    print(f'clearing table:{d.clear_user_table()}')
+
