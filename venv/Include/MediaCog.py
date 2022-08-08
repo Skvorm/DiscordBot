@@ -9,7 +9,6 @@ class Media(commands.Cog, name="Media"):
     def __init__(self, client):
         self.client = client
 
-
     songlist_desc = "Lists playable media files"
     songlist_help_long = "Song Numbers for !music command"
     songlist_help_brief = "Song Numbers for !music command"
@@ -36,15 +35,17 @@ class Media(commands.Cog, name="Media"):
     @commands.command(name="music", aliases=["song", "play", "media"], description=song_desc, help=song_help_long,
                       brief=song_desc, rest_is_raw=True)
     async def music(self, ctx, *, arg):
-        ran=False
+        ran = False
         try:
             song_choice = parse_song(arg)
             if song_choice < 0 or song_choice > get_song_list_length():
-                song = get_random_song()
-                ran=True
+                rand_song=get_random_song()
+                song = rand_song[1]
+                song_choice=rand_song[0]
+                ran = True
             else:
                 song = get_song_choice(song_choice)
-            print(str(ran))
+            # print(str(ran))
             player = ctx.author.voice.channel
             found = False
             vc_id = 0
@@ -76,16 +77,16 @@ class Media(commands.Cog, name="Media"):
                 vc.play(discord.FFmpegPCMAudio(song), after=after_player)
                 # await ctx.send(f'Now playing: "{song_format(song)}"')
                 if ran:
-                    t="Random Play"
+                    t = "Random Play"
                 else:
-                    t="Request"
+                    t = "Request"
                 emb = discord.Embed(
-                                    #title="Media",
-                                    description=f'Now playing: **{song_format(song)}**',
-                                    color=discord.Color.dark_blue())
-                #emb.add_field(name="Now Playing",value=f"{song_format(song)}")
+                    # title="Media",
+                    description=f'Now playing: **{song_format(song)}**',
+                    color=discord.Color.dark_blue())
+                # emb.add_field(name="Now Playing",value=f"{song_format(song)}")
                 emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
-                emb.set_footer(text=t)
+                emb.set_footer(text=t+f': Song #{song_choice}')
 
                 await ctx.send(embed=emb)
 
@@ -95,7 +96,6 @@ class Media(commands.Cog, name="Media"):
         except AttributeError as e:
             # print("we've excepted"+str(e))
             pass
-
 
     stop_desc = "Stops the music"
     stop_help = "Stops the currently playing music"

@@ -5,8 +5,9 @@ import filetype
 
 def get_random_song():
     songs = create_music_list("music")
-    song_path = songs[random.randrange(0, len(songs))]
-    return song_path
+    song_num=random.randrange(0, len(songs))
+    song_path = songs[song_num]
+    return [song_num+1,song_path]
 
 
 def get_song_choice(user_input):
