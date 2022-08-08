@@ -84,7 +84,7 @@ class DataBaseAccess:
 
     def clear_user_table(self):
         try:
-            query = '''Delete from users '''
+            query = '''DELETE FROM users'''
             self.cur.execute(query)
             return True
         except sqlite3.Error:
@@ -97,9 +97,10 @@ if __name__ == '__main__':
     # print(d.put_user([1,2]))
     # print(d.put_user([1,1]))
     # print(d.put_user([2,1]))
-    print(d.get_user_score(1))
-    print(d.set_user_score(1, 50))
-    print(d.increment_user_score(1, 25))
-    print(d.increment_user_score(3, 25))
-    print(d.get_user_score(3))
+    #print(d.get_user_score(1))
+    #print(d.set_user_score(1, 50))
+    #print(d.increment_user_score(1, 25))
+    #print(d.increment_user_score(3, 25))
+    #print(d.get_user_score(3))
     print(f'clearing table:{d.clear_user_table()}')
+    d.con.commit()
