@@ -9,12 +9,12 @@ class Media(commands.Cog, name="Media"):
     def __init__(self, client):
         self.client = client
 
-    songlist_desc = "Lists playable media files"
-    songlist_help_long = "Song Numbers for !music command"
-    songlist_help_brief = "Song Numbers for !music command"
+    command_song_list_desc = "Lists playable media files"
+    command_song_list_help_long = "Song Numbers for !music command"
+    command_song_list_help_brief = "Song Numbers for !music command"
 
-    @commands.command(name="songlist", aliases=["musiclist", "list"], description=songlist_desc,
-                      help=songlist_help_long, brief=songlist_help_brief)
+    @commands.command(name="songlist", aliases=["musiclist", "list"], description=command_song_list_desc,
+                      help=command_song_list_help_long, brief=command_song_list_help_brief)
     async def song_list(self, ctx):
         bl = 2000
         song_list = get_song_list()
@@ -67,8 +67,8 @@ class Media(commands.Cog, name="Media"):
                 future = asyncio.run_coroutine_threadsafe(cr, self.client.loop)
                 try:
                     future.result()
-                except Exception as e:
-                    print(e)
+                except Exception as e2:
+                    print(e2)
 
             if vc.is_playing:
                 vc.pause()
@@ -108,6 +108,28 @@ class Media(commands.Cog, name="Media"):
             if p.guild == player.guild:
                 p.stop()
                 await p.disconnect()
+
+    pause_desc = "Pauses the music"
+    pause_help = "Pauses the currently playing music"
+    pause_help_brief = "Pauses the currently playing music"
+
+    @commands.command(name="pause", desc=pause_desc, help=pause_help, brief=pause_help_brief)
+    async def pause(self, ctx):
+        player = ctx.channel
+        for p in self.client.voice_clients:
+            if p.guild == player.guild:
+                p.pause()
+
+    resume_desc = "Resumes playing paused music"
+    resume_help = "Resumes playing the music"
+    resume_help_brief = "Resumes paused music"
+
+    @commands.command(name="resume", desc=resume_desc, help=resume_help, brief=resume_help_brief)
+    async def resume(self, ctx):
+        player = ctx.channel
+        for p in self.client.voice_clients:
+            if p.guild == player.guild:
+                p.resume()
 
 
 def setup(client):
