@@ -11,16 +11,13 @@ sv_intents = discord.Intents.all()
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 bot_GUILD = os.getenv('DISCORD_GUILD')
-debug_guild=os.getenv('GUILD_ID')
-client = commands.Bot(debug_guild=debug_guild,command_prefix='!', intents=sv_intents)
+debug_guild = [os.getenv('GUILD_ID')]
+client = commands.Bot(debug_guild=debug_guild, command_prefix='!', intents=sv_intents)
 client.load_extension("MediaCog")
 client.load_extension("RollCog")
 client.load_extension("CardCog")
 client.load_extension("UtilityCog")
 
-#print(f'responding to commands starting with"{client.command_prefix}"')
-#for c in client.commands:
-    #print(f'{c.name}:{c.enabled}')
 
 @client.event
 async def on_ready():
@@ -37,9 +34,10 @@ async def on_message(message):
 
 
 @client.event
-async def on_command_error(ctx,error):
+async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
         pass
+
 
 if __name__ == '__main__':
     time = dt.datetime.now()
