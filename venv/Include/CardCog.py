@@ -30,6 +30,10 @@ class Card(commands.Cog, name="Card"):
         if ch_test is not None:
             chat_channel = ch_test.channel
             players_m = chat_channel.members
+            if self.client.user in players_m:
+                players_m.remove(self.client.user)
+            ##    print(f'{p}:{p==self.client.user}')
+            print(len(players_m))
             if len(players_m) >= 1:
                 for p in players_m:
                     players.append(p.name)
