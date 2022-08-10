@@ -13,8 +13,11 @@ class Media(commands.Cog, name="Media"):
     command_song_list_help_long = "Song Numbers for !music command"
     command_song_list_help_brief = "Song Numbers for !music command"
 
-    @commands.command(name="songlist", aliases=["musiclist", "list"], description=command_song_list_desc,
-                      help=command_song_list_help_long, brief=command_song_list_help_brief)
+    @discord.slash_command(
+        name="songlist",
+        description=command_song_list_desc,
+        help=command_song_list_help_long,
+        brief=command_song_list_help_brief)
     async def song_list(self, ctx):
         bl = 2000
         song_list = get_song_list()
@@ -32,16 +35,19 @@ class Media(commands.Cog, name="Media"):
                     by including its number after the command. If no/invalid number is input, random \
                     file from folder will play"
 
-    @commands.command(name="music", aliases=["song", "play", "media"], description=song_desc, help=song_help_long,
-                      brief=song_desc, rest_is_raw=True)
-    async def music(self, ctx, *, arg):
+    @discord.slash_command(
+        description=song_desc,
+        name="music",
+        help=song_help_long,
+        brief=song_desc)
+    async def music(self, ctx, song_number: discord.Option(str, "Enter Song Number", required=False, default='')):
         ran = False
         try:
-            song_choice = parse_song(arg)
+            song_choice = parse_song(song_number)
             if song_choice < 0 or song_choice > get_song_list_length():
-                rand_song=get_random_song()
+                rand_song = get_random_song()
                 song = rand_song[1]
-                song_choice=rand_song[0]
+                song_choice = rand_song[0]
                 ran = True
             else:
                 song = get_song_choice(song_choice)
@@ -86,9 +92,9 @@ class Media(commands.Cog, name="Media"):
                     color=discord.Color.dark_blue())
                 # emb.add_field(name="Now Playing",value=f"{song_format(song)}")
                 emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
-                emb.set_footer(text=t+f': Song #{song_choice}')
+                emb.set_footer(text=t + f': Song #{song_choice}')
 
-                await ctx.send(embed=emb)
+                await ctx.respond(embed=emb)
 
             except Exception as play_exception:
                 print("couldn't play")
@@ -101,7 +107,11 @@ class Media(commands.Cog, name="Media"):
     stop_help = "Stops the currently playing music"
     stop_help_brief = "Stops the currently playing music"
 
-    @commands.command(name="stop", desc=stop_desc, help=stop_help, brief=stop_help_brief)
+    @discord.slash_command(
+        name="stop",
+        desc=stop_desc,
+        help=stop_help,
+        brief=stop_help_brief)
     async def stop(self, ctx):
         player = ctx.channel
         for p in self.client.voice_clients:
@@ -113,7 +123,11 @@ class Media(commands.Cog, name="Media"):
     pause_help = "Pauses the currently playing music"
     pause_help_brief = "Pauses the currently playing music"
 
-    @commands.command(name="pause", desc=pause_desc, help=pause_help, brief=pause_help_brief)
+    @discord.slash_command(
+        name="pause",
+        desc=pause_desc,
+        help=pause_help,
+        brief=pause_help_brief)
     async def pause(self, ctx):
         player = ctx.channel
         for p in self.client.voice_clients:
@@ -124,7 +138,11 @@ class Media(commands.Cog, name="Media"):
     resume_help = "Resumes playing the music"
     resume_help_brief = "Resumes paused music"
 
-    @commands.command(name="resume", desc=resume_desc, help=resume_help, brief=resume_help_brief)
+    @discord.slash_command(
+        name="resume",
+        desc=resume_desc,
+        help=resume_help,
+        brief=resume_help_brief)
     async def resume(self, ctx):
         player = ctx.channel
         for p in self.client.voice_clients:
