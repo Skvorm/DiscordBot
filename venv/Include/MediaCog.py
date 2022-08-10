@@ -109,9 +109,11 @@ class Media(commands.Cog, name="Media"):
             except Exception as play_exception:
                 print("couldn't play")
                 print(str(play_exception))
+                print("1")
         except AttributeError as e:
             # print("we've excepted"+str(e))
-            pass
+            if type(ctx) is discord.commands.context.ApplicationContext:
+                await ctx.respond("couldn't play music",ephemeral=True)
 
     stop_desc = "Stops the music"
     stop_help = "Stops the currently playing music"
