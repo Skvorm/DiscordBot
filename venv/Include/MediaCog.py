@@ -1,6 +1,7 @@
 import asyncio
 import discord
-from discord.ext import commands
+from discord import SlashCommandGroup
+from discord.ext import commands, bridge
 from BotHelperFunctions import get_song_list, parse_song, get_song_list_length, get_random_song, get_song_choice, \
     song_format
 
@@ -9,13 +10,16 @@ class Media(commands.Cog, name="Media"):
     def __init__(self, client):
         self.client = client
 
+    media="Media"
     command_song_list_desc = "Lists playable media files"
     command_song_list_help_long = "Song Numbers for !music command"
     command_song_list_help_brief = "Song Numbers for !music command"
 
-    @discord.slash_command(
+    @bridge.bridge_command(
         name="songlist",
         description=command_song_list_desc,
+        cog="Media",
+        group=media,
         help=command_song_list_help_long,
         brief=command_song_list_help_brief)
     async def song_list(self, ctx):
@@ -35,12 +39,15 @@ class Media(commands.Cog, name="Media"):
                     by including its number after the command. If no/invalid number is input, random \
                     file from folder will play"
 
-    @discord.slash_command(
+    @bridge.bridge_command(
         description=song_desc,
-        name="music",
+        cog="Media",
+        group=media,
+        aliases=["song", "play", "media"],
         help=song_help_long,
-        brief=song_desc)
-    async def music(self, ctx, song_number: discord.Option(str, "Enter Song Number", required=False, default='')):
+        brief=song_desc,
+        rest_is_raw=True)
+    async def music(self, ctx, * , song_number=""):
         ran = False
         try:
             song_choice = parse_song(song_number)
@@ -94,7 +101,10 @@ class Media(commands.Cog, name="Media"):
                 emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
                 emb.set_footer(text=t + f': Song #{song_choice}')
 
-                await ctx.respond(embed=emb)
+                if type(ctx) is discord.commands.context.ApplicationContext:
+                    await ctx.respond(embed=emb)
+                else:
+                    await ctx.send(embed=emb)
 
             except Exception as play_exception:
                 print("couldn't play")
@@ -107,9 +117,11 @@ class Media(commands.Cog, name="Media"):
     stop_help = "Stops the currently playing music"
     stop_help_brief = "Stops the currently playing music"
 
-    @discord.slash_command(
+    @bridge.bridge_command(
         name="stop",
         desc=stop_desc,
+        cog="Media",
+        group=media,
         help=stop_help,
         brief=stop_help_brief)
     async def stop(self, ctx):
@@ -123,9 +135,11 @@ class Media(commands.Cog, name="Media"):
     pause_help = "Pauses the currently playing music"
     pause_help_brief = "Pauses the currently playing music"
 
-    @discord.slash_command(
+    @bridge.bridge_command(
         name="pause",
         desc=pause_desc,
+        cog="Media",
+        group=media,
         help=pause_help,
         brief=pause_help_brief)
     async def pause(self, ctx):
@@ -138,9 +152,11 @@ class Media(commands.Cog, name="Media"):
     resume_help = "Resumes playing the music"
     resume_help_brief = "Resumes paused music"
 
-    @discord.slash_command(
+    @bridge.bridge_command(
         name="resume",
         desc=resume_desc,
+        cog="Media",
+        group=media,
         help=resume_help,
         brief=resume_help_brief)
     async def resume(self, ctx):
