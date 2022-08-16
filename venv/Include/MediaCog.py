@@ -1,6 +1,5 @@
 import asyncio
 import discord
-from discord import SlashCommandGroup
 from discord.ext import commands, bridge
 from BotHelperFunctions import get_song_list, parse_song, get_song_list_length, get_random_song, get_song_choice, \
     song_format
@@ -107,9 +106,9 @@ class Media(commands.Cog, name="Media"):
                     await ctx.send(embed=emb)
 
             except Exception as play_exception:
-                print("couldn't play")
+               # print("couldn't play")
                 print(str(play_exception))
-                print("1")
+               # print("1")
         except AttributeError as e:
             # print("we've excepted"+str(e))
             if type(ctx) is discord.commands.context.ApplicationContext:
