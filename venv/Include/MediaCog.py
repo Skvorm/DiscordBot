@@ -132,6 +132,7 @@ class Media(commands.Cog, name="Media"):
             if p.guild == player.guild:
                 p.stop()
                 await p.disconnect()
+                await ctx.respond("Playback stopped")
 
     pause_desc = "Pauses the music"
     pause_help = "Pauses the currently playing music"
