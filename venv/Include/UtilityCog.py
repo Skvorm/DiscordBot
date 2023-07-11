@@ -39,9 +39,9 @@ class Utils(commands.Cog, name="Utils"):
             for t in range(1, team_count + 1):
                 teams.append([])
             for p in players_m:
-                players.append(p.name)
+                players.append(p.display_name)
             if test:
-                test_players = ["Bill", "Bob", "Billie Jean", "Bobby", "Larry"]
+                test_players = ["Bill", "Bob", "Billy", "Bobby", "Larry"]
                 for p in test_players:
                     players.append(p)
             random.shuffle(players)
