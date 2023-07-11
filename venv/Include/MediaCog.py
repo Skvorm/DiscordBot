@@ -47,7 +47,7 @@ class Media(commands.Cog, name="Media"):
         help=song_help_long,
         brief=song_desc,
         rest_is_raw=True)
-    async def music(self, ctx, * , song_number=""):
+    async def music(self, ctx, *, song_number=""):
         ran = False
         try:
             song_choice = parse_song(song_number)
@@ -100,11 +100,10 @@ class Media(commands.Cog, name="Media"):
                 # emb.add_field(name="Now Playing",value=f"{song_format(song)}")
                 emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
                 emb.set_footer(text=t + f': Song #{song_choice}')
-
-                if type(ctx) is discord.commands.context.ApplicationContext:
-                    await ctx.respond(embed=emb)
-                else:
-                    await ctx.respond(embed=emb)
+               # if type(ctx) is discord.commands.context.ApplicationContext:
+               #     await ctx.respond(embed=emb)
+               # else:
+                await ctx.respond(embed=emb)
 
             except Exception as play_exception:
                # print("couldn't play")
@@ -113,7 +112,7 @@ class Media(commands.Cog, name="Media"):
         except AttributeError as e:
             # print("we've excepted"+str(e))
             if type(ctx) is discord.commands.context.ApplicationContext:
-                await ctx.respond("couldn't play music",ephemeral=True)
+                await ctx.respond("couldn't play music", ephemeral=True)
 
     stop_desc = "Stops the music"
     stop_help = "Stops the currently playing music"
