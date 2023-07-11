@@ -56,7 +56,7 @@ class Utils(commands.Cog, name="Utils"):
                 for p in teams[t]:
                     msg+=f'{p}+\n'
                 #msg+=f'{teams[t]} \n'
-                print(msg)
+                #print(msg)
             emb = discord.Embed(
                 title="Teams",
                 description=f'Dividing players into **{team_count}** teams',
@@ -66,12 +66,12 @@ class Utils(commands.Cog, name="Utils"):
                 for p in teams[t]:
                     msg+=f'{p} \n'
                 emb.add_field(name=f'Team {(t+1)}', value=msg)
-                print(msg)
+                #print(msg)
             emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
             #emb.set_footer(text=msg)
             await ctx.respond(embed=emb)
-            print(teams)
-            print(len(teams))
+            #print(teams)
+            #print(len(teams))
 
 
 def setup(client):
