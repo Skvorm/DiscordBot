@@ -5,14 +5,14 @@ from discord.ext.commands import CommandNotFound
 
 from BotHelperFunctions import *
 from dotenv import load_dotenv
-from discord.ext import commands
+from discord.ext import commands, bridge
 
 sv_intents = discord.Intents.all()
 load_dotenv()
 token = os.getenv('DISCORD_TOKEN')
 bot_GUILD = os.getenv('DISCORD_GUILD')
 debug_guild = [os.getenv('GUILD_ID')]
-client = commands.Bot(debug_guild=debug_guild, command_prefix='!', intents=sv_intents)
+client = bridge.Bot(debug_guild=debug_guild, command_prefix='!', intents=sv_intents)
 client.load_extension("MediaCog")
 client.load_extension("RollCog")
 client.load_extension("CardCog")

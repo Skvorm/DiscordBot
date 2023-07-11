@@ -5,9 +5,9 @@ import filetype
 
 def get_random_song():
     songs = create_music_list("music")
-    song_num=random.randrange(0, len(songs))
+    song_num = random.randrange(0, len(songs))
     song_path = songs[song_num]
-    return [song_num+1,song_path]
+    return [song_num + 1, song_path]
 
 
 def get_song_choice(user_input):
@@ -66,7 +66,7 @@ def get_roll_range(input_string, max_val=10000, max_die=1000):
     param = param.strip()
     if param.find('d') != -1:
         param = param.split('d')
-        print(param)
+        # print(param)
         start = 1
         # if parameters greater than limits, uses max values
         # if less, uses default parameters
@@ -227,7 +227,7 @@ def create_music_list_dir(path):
     c = os.scandir(path)
     for f in c:
         if f.is_dir():
-            tmp_list = create_music_list(f.path)
+            tmp_list = create_music_list_dir(f.path)
             for tf in tmp_list:
                 dir_list[f.path] = tmp_list
         elif f.is_file():
@@ -247,6 +247,8 @@ if __name__ == '__main__':
     #  tmp = parse_song("!music 9")
     #  tmp = parse_song("!music")
     #   print(str(tmp) + ":" + str(parse_song("!music")))
-    # tmp=create_music_list_dir("music")
-    ####       print(f'{song_format(song)}')
-    print(get_roll_range("3d20"))
+    tmp=create_music_list_dir("music\\Lego Island")
+    for t in tmp:
+        print(t)
+    #  print(f'{song_format(song)}')
+    #print(get_roll_range("3d20"))

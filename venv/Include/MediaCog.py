@@ -27,9 +27,10 @@ class Media(commands.Cog, name="Media"):
         if len(song_list) < 1:
             await ctx.channel.send("No media files in \\music folder")
         elif len(song_list) <= bl:
-            await ctx.channel.send(song_list)
+            await ctx.channel.respond(song_list)
         else:
             msg_buffer = [song_list[i:i + bl] for i in range(0, len(song_list), bl)]
+            await ctx.respond("Generating Songlist")
             for m in msg_buffer:
                 await ctx.send(m)
 
@@ -103,7 +104,7 @@ class Media(commands.Cog, name="Media"):
                 if type(ctx) is discord.commands.context.ApplicationContext:
                     await ctx.respond(embed=emb)
                 else:
-                    await ctx.send(embed=emb)
+                    await ctx.respond(embed=emb)
 
             except Exception as play_exception:
                # print("couldn't play")
@@ -148,6 +149,7 @@ class Media(commands.Cog, name="Media"):
         for p in self.client.voice_clients:
             if p.guild == player.guild:
                 p.pause()
+                await ctx.respond("Media Playback is paused.")
 
     resume_desc = "Resumes playing paused music"
     resume_help = "Resumes playing the music"
@@ -165,6 +167,7 @@ class Media(commands.Cog, name="Media"):
         for p in self.client.voice_clients:
             if p.guild == player.guild:
                 p.resume()
+                await ctx.respond("Resuming media playback")
 
 
 def setup(client):

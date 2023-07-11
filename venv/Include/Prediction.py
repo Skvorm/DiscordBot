@@ -3,7 +3,7 @@ class Prediction:
     default_answers = ["yes", "no"]
     current_question = "question"
     current_answers = []
-    winning_prediction=""
+    winning_prediction = ""
     ans_delimiter = "/:/"
     user_prediction = {}
     point_name = "channel points"
@@ -95,41 +95,40 @@ class Prediction:
                 amount += tmp
         return user
 
-    def get_prediction_totals(self,prediction):
+    def get_prediction_totals(self, prediction):
         amount = 0
-        count=0
+        count = 0
         tmp = 0
         for p in self.user_prediction.items():
             if p[1][0] == prediction:
                 tmp = p[1][1]
                 amount += tmp
-                count+=1
-        return [amount,count]
+                count += 1
+        return [amount, count]
 
-    #returns dictionary of winners and amount for each
-    def get_winners(self,winning_prediction):
-        payout={}
-        pool=self.get_pool()
-        wager=0
-        pay_total=0
-        tmp_percent=0
-        winner_pool =self.get_prediction_totals(winning_prediction)[0]
-        winner_count=self.get_prediction_totals(winning_prediction)[1]
-        winners=self.get_prediction_users(winning_prediction)
+    # returns dictionary of winners and amount for each
+    def get_winners(self, winning_prediction):
+        payout = {}
+        pool = self.get_pool()
+        wager = 0
+        pay_total = 0
+        tmp_percent = 0
+        winner_pool = self.get_prediction_totals(winning_prediction)[0]
+        winner_count = self.get_prediction_totals(winning_prediction)[1]
+        winners = self.get_prediction_users(winning_prediction)
         for w in winners:
-            wager=winners[w]
-            tmp_percent=wager/winner_pool
-            pay_total=round(tmp_percent*pool,2)
-            payout[w]=pay_total
-            print(w+":"+str(round(tmp_percent*100,2)))
+            wager = winners[w]
+            tmp_percent = wager / winner_pool
+            pay_total = round(tmp_percent * pool, 2)
+            payout[w] = pay_total
+            print(w + ":" + str(round(tmp_percent * 100, 2)))
         return payout
-        #print(str(winners))
-
+        # print(str(winners))
 
     def get_split_totals(self):
-        predictions={}
+        predictions = {}
         for p in self.current_answers:
-            predictions[p]=self.get_prediction_totals(p)[0]
+            predictions[p] = self.get_prediction_totals(p)[0]
         return predictions
 
     def get_split_totals_user_count(self):
@@ -138,7 +137,6 @@ class Prediction:
             predictions[p] = self.get_prediction_totals(p)
         return predictions
 
-        return predictions
     # dictionary of user predictions with prediction as primary key
     def get_split_users(self):
         predictions = {}
@@ -163,3 +161,4 @@ if __name__ == '__main__':
     print(str(p.get_split_totals()))
     print(str(p.get_prediction_users("yes")))
     print(str(p.get_winners("yes")))
+    print(str(p.get_winners("no")))
