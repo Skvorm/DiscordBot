@@ -70,6 +70,8 @@ class Utils(commands.Cog, name="Utils"):
             emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
             #emb.set_footer(text=msg)
             await ctx.respond(embed=emb)
+        else:
+            await ctx.respond("No players")
             #print(teams)
             #print(len(teams))
 
