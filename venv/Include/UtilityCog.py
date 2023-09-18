@@ -26,7 +26,7 @@ class Utils(commands.Cog, name="Utils"):
         help=help_brief,
         brief=help_brief
     )
-    async def teams(self, ctx, team_count=2,test=True):
+    async def teams(self, ctx, team_count=2,test=False):
         team_count = int(team_count)
         players = []
         teams = []
