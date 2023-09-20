@@ -25,11 +25,11 @@ A simple Discord Bot that allows users to roll various-sided dice(d6,d10,d20,etc
     !music 5
     !songlist
 ### -!team
-- creates a list of teams from users currently in the same voice channel as the sending user.
+- creates randomly assigned teams from users currently in the same voice channel as the sending user
 - number of teams can be set by including a number after the command(default is set to 2).
 #### Example
-    !team   (separates users into 2 separate teams)
-    !team 3 (separates users into 3 separate teams)
+    !team   (creates 2 teams and randomly assigns users to each)
+    !team 3 (creates 3 teams and randomly assigns users to each)
 ## Requires
 -[Pycord[voice]](https://docs.pycord.dev/en/master/index.html)
 	(Base Discord-API libraries for Python)
