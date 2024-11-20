@@ -103,7 +103,7 @@ class Media(commands.Cog, name="Media"):
                # if type(ctx) is discord.commands.context.ApplicationContext:
                #     await ctx.respond(embed=emb)
                # else:
-                await ctx.respond(embed=emb)
+                await ctx.respond("",embed=emb)
 
             except Exception as play_exception:
                # print("couldn't play")
