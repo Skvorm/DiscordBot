@@ -26,13 +26,12 @@ class Card(commands.Cog, name="Card"):
         max_msg_length=2000
         max_embed_length=4096
         players = []
-        ch_test = ctx.author.voice
-        if ch_test is not None:
-            chat_channel = ch_test.channel
+        current_channel = ctx.author.voice
+        if current_channel is not None:
+            chat_channel = current_channel.channel
             players_m = chat_channel.members
             if self.client.user in players_m:
                 players_m.remove(self.client.user)
-            ##    print(f'{p}:{p==self.client.user}')
             print(len(players_m))
             if len(players_m) >= 1:
                 for p in players_m:
