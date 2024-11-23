@@ -30,9 +30,12 @@ class Media(commands.Cog, name="Media"):
             await ctx.channel.respond(song_list)
         else:
             msg_buffer = [song_list[i:i + bl] for i in range(0, len(song_list), bl)]
-            await ctx.respond("Generating Songlist")
+            ini_msg=await ctx.respond("Generating Songlist",ephemeral=True)
+            msg=await ctx.channel.send("Current Song list")
+            thread=await ctx.channel.create_thread(name="Songlist",message=msg)
             for m in msg_buffer:
-                await ctx.send(m)
+                await thread.send(m)
+            await thread.edit(locked=True)
 
     song_desc = "Plays media files"
     song_help_long = "View playable files with the !songlist command and select the corresponding song \
