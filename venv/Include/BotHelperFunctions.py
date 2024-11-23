@@ -23,8 +23,8 @@ def get_song_list_length():
 
 def song_format(song):
     song_name = song.rsplit("\\")[-1]
-    songtmp = song_name[:song_name.rindex(".")]
-    return songtmp
+    song_form = song_name[:song_name.rindex(".")]
+    return song_form
 
 
 def get_song_list():
@@ -32,8 +32,6 @@ def get_song_list():
     ch_ct = 0
     ct = 1
     out = ""
-    outtmp = ''
-    songtmp = ''
     bl = 2000
     msg_ct = 1
     for song in songs:
