@@ -1,9 +1,7 @@
-
 import datetime as dt
 import discord
 from discord.ext.commands import CommandNotFound
 from discord.ext import commands, bridge
-
 from BotHelperFunctions import *
 from dotenv import load_dotenv
 

@@ -1,7 +1,6 @@
 import random
 import discord.ext.commands
 from discord.ext import commands, bridge
-from random import shuffle
 
 
 class Utils(commands.Cog, name="Utils"):
