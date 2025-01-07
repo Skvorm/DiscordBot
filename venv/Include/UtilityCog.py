@@ -10,13 +10,6 @@ class Utils(commands.Cog, name="Utils"):
     desc = "Divides current users into teams"
     help_brief = "!team [number of teams]"
 
-    @bridge.bridge_command()
-    async def ping(self, ctx):
-        if type(ctx) is discord.commands.context.ApplicationContext:
-            await ctx.respond(f"Current Ping:{self.client.latency}")
-        else:
-            await ctx.send(f"Current Ping:{self.client.latency}")
-
     @bridge.bridge_command(
         name="team",
         description="sorts current users into teams",
@@ -25,13 +18,18 @@ class Utils(commands.Cog, name="Utils"):
         help=help_brief,
         brief=help_brief
     )
-    async def teams(self, ctx, team_count=2, test=False):
-        team_count = int(team_count)
+    async def teams(self, ctx, *, team_count=2):
+        try:
+            team_count = int(team_count)
+            if team_count <= 0:
+                raise Exception
+        except:
+            team_count=2
         players = []
         teams = []
-        ch_test = ctx.author.voice
-        if ch_test is not None:
-            chat_channel = ch_test.channel
+        ch_author = ctx.author.voice
+        if ch_author is not None:
+            chat_channel = ch_author.channel
             players_m = chat_channel.members
             if self.client.user in players_m:
                 players_m.remove(self.client.user)
@@ -39,10 +37,6 @@ class Utils(commands.Cog, name="Utils"):
                 teams.append([])
             for p in players_m:
                 players.append(p.display_name)
-            if test:
-                test_players = ["Bill", "Bob", "Billy", "Bobby", "Larry"]
-                for p in test_players:
-                    players.append(p)
             random.shuffle(players)
             count = 0
             msg = ''
