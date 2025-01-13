@@ -9,7 +9,7 @@ class Media(commands.Cog, name="Media"):
     def __init__(self, client):
         self.client = client
 
-    media="Media"
+    media = "Media"
     command_song_list_desc = "Lists playable media files"
     command_song_list_help_long = "Song Numbers for !music command"
     command_song_list_help_brief = "Song Numbers for !music command"
@@ -27,12 +27,13 @@ class Media(commands.Cog, name="Media"):
         if len(song_list) < 1:
             await ctx.channel.send("No media files in \\music folder")
         elif len(song_list) <= bl:
-            await ctx.channel.respond(song_list)
+            await ctx.respond(song_list)
         else:
+            ##if songlist too long for one message send in thread form
             msg_buffer = [song_list[i:i + bl] for i in range(0, len(song_list), bl)]
-            ini_msg=await ctx.respond("Generating Songlist",ephemeral=True)
-            msg=await ctx.channel.send("Current Song list")
-            thread=await ctx.channel.create_thread(name="Songlist",message=msg)
+            ini_msg = await ctx.respond("Generating Songlist", ephemeral=True)
+            msg = await ctx.channel.send("Current Song list")
+            thread = await ctx.channel.create_thread(name="Songlist", message=msg)
             for m in msg_buffer:
                 await thread.send(m)
             await thread.edit(locked=True)
@@ -103,17 +104,14 @@ class Media(commands.Cog, name="Media"):
                 # emb.add_field(name="Now Playing",value=f"{song_format(song)}")
                 emb.set_author(name=ctx.author.display_name, icon_url=ctx.author.display_avatar)
                 emb.set_footer(text=t + f': Song #{song_choice}')
-               # if type(ctx) is discord.commands.context.ApplicationContext:
-               #     await ctx.respond(embed=emb)
-               # else:
-                await ctx.respond("",embed=emb)
+                # if type(ctx) is discord.commands.context.ApplicationContext:
+                #     await ctx.respond(embed=emb)
+                # else:
+                await ctx.respond("", embed=emb)
 
             except Exception as play_exception:
-               # print("couldn't play")
                 print(str(play_exception))
-               # print("1")
         except AttributeError as e:
-            # print("we've excepted"+str(e))
             if type(ctx) is discord.commands.context.ApplicationContext:
                 await ctx.respond("couldn't play music", ephemeral=True)
 
